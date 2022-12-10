@@ -1,5 +1,7 @@
 package ray.mintcat.rayitemscript.impl.listener.player
 
+import org.bukkit.entity.Player
+import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerItemBreakEvent
 import org.bukkit.event.player.PlayerPickupItemEvent
 import org.bukkit.event.player.PlayerToggleSprintEvent
@@ -12,17 +14,18 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.platform.util.isAir
 
-object PlayerRunListener : ScriptListener {
+object PlayerDamageListener : ScriptListener {
 
     @SubscribeEvent
-    fun onPlayerItemBreakEvent(event: PlayerToggleSprintEvent) {
+    fun onPlayerItemBreakEvent(event: EntityDamageByEntityEvent) {
+        val player = event.damager as? Player ?: return
         val list = mutableListOf<ItemStack>()
-        list.addAll(event.player.inventory.armorContents)
-        list.add(event.player.inventory.itemInMainHand)
-        list.add(event.player.inventory.itemInOffHand)
+        list.addAll(player.inventory.armorContents)
+        list.add(player.inventory.itemInMainHand)
+        list.add(player.inventory.itemInOffHand)
         list.forEach { item ->
             if (!item.isAir()) {
-                RayItemScript.run(event.player, event, item, name)
+                RayItemScript.run(player, event, item, name)
             }
         }
     }
@@ -32,11 +35,11 @@ object PlayerRunListener : ScriptListener {
         register()
     }
 
-    override val name: String = "player_run"
+    override val name: String = "player_damage"
 
     override fun check(event: Any, call: ScriptData): Boolean {
 
-        if (event !is PlayerToggleSprintEvent) {
+        if (event !is EntityDamageByEntityEvent) {
             return true
         }
         return true

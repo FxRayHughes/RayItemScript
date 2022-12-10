@@ -16,7 +16,7 @@ object ItemDropListener : ScriptListener {
     @SubscribeEvent
     fun onPlayerItemBreakEvent(event: PlayerDropItemEvent) {
         val item = event.itemDrop.itemStack
-        RayItemScript.run(event.player, event, item)
+        RayItemScript.run(event.player, event, item, name)
     }
 
     @Awake(LifeCycle.ACTIVE)
@@ -27,6 +27,7 @@ object ItemDropListener : ScriptListener {
     override val name: String = "item_drop"
 
     override fun check(event: Any, call: ScriptData): Boolean {
+        
         if (event !is PlayerDropItemEvent) {
             return true
         }

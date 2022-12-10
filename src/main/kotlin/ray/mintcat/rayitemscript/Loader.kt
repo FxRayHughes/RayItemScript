@@ -35,7 +35,10 @@ object Loader {
     fun build(configuration: Configuration) {
         //读取配置文件
         configuration.getKeys(false).forEach { key ->
-            val listener = ListenerData(configuration.getStringList("${key}.listener"))
+            val listener = ListenerData(
+                configuration.getBoolean("${key}.listener.any", false),
+                configuration.getStringList("${key}.listener.action")
+            )
             val item = ItemData(
                 configuration.getStringList("${key}.item.lore"),
                 configuration.getString("${key}.item.nbt_key"),
@@ -47,7 +50,8 @@ object Loader {
                 configuration.getString("${key}.consume.message")
             )
             val conditions = ConditionsData(
-                configuration.getInt("${key}.conditions.probability", 100),
+                configuration.getInt("${key}.conditions.probability.value", 100),
+                configuration.getString("${key}.conditions.probability.message"),
                 configuration.getString("${key}.conditions.permissions.value"),
                 configuration.getString("${key}.conditions.permissions.message"),
                 configuration.getStringList("${key}.conditions.kether")
@@ -76,7 +80,6 @@ object Loader {
     fun loadFile(file: File) {
         if (file.isFile) {
             files.add(file)
-            println(file.path)
         } else {
             file.listFiles()?.forEach {
                 loadFile(it)

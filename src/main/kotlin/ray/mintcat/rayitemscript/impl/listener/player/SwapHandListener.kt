@@ -15,12 +15,7 @@ object SwapHandListener : ScriptListener {
 
     @SubscribeEvent
     fun onPlayerSwapHandItemsEvent(event: PlayerSwapHandItemsEvent) {
-        if (!event.offHandItem.isAir) {
-            RayItemScript.run(event.player, event, event.offHandItem!!)
-        }
-        if (!event.mainHandItem.isAir) {
-            RayItemScript.run(event.player, event, event.mainHandItem!!)
-        }
+        RayItemScript.run(event.player, event, event.mainHandItem!!, name)
     }
 
     @Awake(LifeCycle.ACTIVE)
@@ -34,19 +29,16 @@ object SwapHandListener : ScriptListener {
         if (event !is PlayerSwapHandItemsEvent) {
             return true
         }
-        if (call.listener.list.contains("player_swap_hand_any") ||
-            call.listener.list.contains("player_swap_hand_any!!")) {
+        if (call.listener.list.contains("player_swap_hand_any")) {
             return true
         }
         if (event.offHandItem.isNotAir()) {
-            if (call.listener.list.contains("player_swap_hand_off") ||
-                call.listener.list.contains("player_swap_hand_off!!")) {
+            if (call.listener.list.contains("player_swap_hand_off")) {
                 return true
             }
         }
         if (event.mainHandItem.isNotAir()) {
-            if (call.listener.list.contains("player_swap_hand_main") ||
-                call.listener.list.contains("player_swap_hand_main!!")) {
+            if (call.listener.list.contains("player_swap_hand_main")) {
                 return true
             }
         }

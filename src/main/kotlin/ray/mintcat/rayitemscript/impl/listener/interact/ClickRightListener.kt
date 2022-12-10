@@ -17,6 +17,7 @@ object ClickRightListener : ScriptListener {
     override val name: String = "click_right"
 
     override fun check(event: Any, call: ScriptData): Boolean {
+        
         if (event !is PlayerInteractEvent) {
             return true
         }

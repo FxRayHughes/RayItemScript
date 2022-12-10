@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture
 
 data class ConditionsData(
     val probability: Int = 100,
+    val probabilityMessage: String? = null,
     val permissions: String? = null,
     val message: String? = null,
     val check: List<String>

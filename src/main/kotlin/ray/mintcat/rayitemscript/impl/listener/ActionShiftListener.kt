@@ -1,6 +1,7 @@
 package ray.mintcat.rayitemscript.impl.listener
 
 import org.bukkit.event.player.PlayerEvent
+import ray.mintcat.rayitemscript.impl.ScriptData
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 
@@ -14,6 +15,7 @@ object ActionShiftListener : ScriptListener {
     override val name: String = "action_shift"
 
     override fun check(event: Any, call: ScriptData): Boolean {
+        
         if (event !is PlayerEvent) {
             return true
         }

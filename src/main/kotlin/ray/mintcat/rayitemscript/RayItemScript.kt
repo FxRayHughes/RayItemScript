@@ -13,9 +13,13 @@ object RayItemScript : Plugin() {
 
     val script = ArrayList<ScriptData>()
 
-    fun run(player: Player, event: Any, item: ItemStack) {
+    fun run(player: Player, event: Any, item: ItemStack, name: String) {
         script.forEach {
-            it.run(player, event, item, it)
+            it.listener.list.forEach {z->
+                if (z.contains(name)){
+                    it.run(player, event, item, it)
+                }
+            }
         }
     }
 

@@ -18,7 +18,7 @@ object TimeListener : ScriptListener {
             Bukkit.getOnlinePlayers().forEach { player ->
                 player.inventory.forEach {
                     if (it != null) {
-                        RayItemScript.run(player, Pair("TIMER", it), it)
+                        RayItemScript.run(player, Pair("TIMER", it), it, name)
                     }
                 }
             }
@@ -29,6 +29,9 @@ object TimeListener : ScriptListener {
 
     override fun check(event: Any, call: ScriptData): Boolean {
         if (event !is Pair<*, *>) {
+            return false
+        }
+        if (event.first != "TIMER") {
             return false
         }
         return call.listener.list.contains("time_always")

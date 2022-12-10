@@ -33,6 +33,7 @@ data class ScriptData(
             return
         }
         if (conditions.probability != 100 && (0..100).random() > conditions.probability) {
+            player.sendMessage(conditions.probabilityMessage?.colored() ?: return)
             return
         }
         if (player.checkItem(itemStack, consume.amount, consume.take)) {

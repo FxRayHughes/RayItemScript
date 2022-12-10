@@ -7,7 +7,7 @@ interface ScriptListener {
 
     val name: String
 
-    fun check(event: Any, call: ScriptData = {}): Boolean
+    fun check(event: Any, call: ScriptData): Boolean
 
     fun register() {
         RayItemScript.listeners[name] = this

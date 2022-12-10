@@ -5,25 +5,37 @@ import ray.mintcat.rayitemscript.RayItemScript
 import ray.mintcat.rayitemscript.impl.ScriptData
 
 data class ListenerData(
+    val any: Boolean = false,
     val list: List<String>
 ) {
 
     fun eval(event: Any, call: ScriptData): Boolean {
-        return !(list.map {
-            val action = RayItemScript.listeners[it]
-            if (action == null) {
-                val temp = RayItemScript.listeners.values.firstOrNull { z -> it.startsWith(z.name) }
-                if (it.contains("!!")) {
-                    (event as? Cancellable)?.isCancelled = true
-                }
-                temp?.check(event, call) ?: return true
-            } else {
-                if (it.contains("!!")) {
-                    (event as? Cancellable)?.isCancelled = true
-                }
-                action.check(event, call)
+        var over = false
+        list.forEach {
+            if (it.contains("!!")) {
+                (event as? Cancellable)?.isCancelled = true
             }
-        }.contains(false))
+            val action = RayItemScript.listeners[it.replace("!!", "")]
+            if (action?.check(event, call) == true) {
+                over = true
+                if (any) {
+                    return true
+                }
+                return@forEach
+            }
+            val temp = RayItemScript.listeners.values.firstOrNull { z ->
+                it.contains(z.name)
+            }
+            if (temp != null) {
+                over = temp.check(event, call)
+                if (over && any) {
+                    return true
+                }
+                return@forEach
+            }
+            return@forEach
+        }
+        return over
     }
 
 }

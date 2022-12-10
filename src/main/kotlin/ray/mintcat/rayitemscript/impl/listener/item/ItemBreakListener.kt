@@ -14,7 +14,7 @@ object ItemBreakListener : ScriptListener {
     @SubscribeEvent
     fun onPlayerItemBreakEvent(event: PlayerItemBreakEvent) {
         val item = event.brokenItem
-        RayItemScript.run(event.player, event, item)
+        RayItemScript.run(event.player, event, item, name)
     }
 
     @Awake(LifeCycle.ACTIVE)
@@ -25,6 +25,7 @@ object ItemBreakListener : ScriptListener {
     override val name: String = "item_break"
 
     override fun check(event: Any, call: ScriptData): Boolean {
+        
         if (event !is PlayerItemBreakEvent) {
             return true
         }
