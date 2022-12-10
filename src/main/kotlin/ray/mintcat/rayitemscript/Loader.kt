@@ -7,6 +7,7 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.function.getDataFolder
 import taboolib.module.configuration.*
 import taboolib.module.configuration.util.getStringColored
+import taboolib.module.configuration.util.getStringListColored
 import java.io.File
 
 object Loader {
@@ -21,6 +22,7 @@ object Loader {
     fun load() {
         files.clear()
         configs.clear()
+        RayItemScript.script.clear()
         loadFile(File(getDataFolder(), "group/"))
         loadConfig()
         create()
@@ -35,14 +37,18 @@ object Loader {
     fun build(configuration: Configuration) {
         //读取配置文件
         configuration.getKeys(false).forEach { key ->
+            val lore = configuration.getStringListColored("${key}.item.lore")
+            if (lore.isEmpty()) {
+                return@forEach
+            }
+            val item = ItemData(
+                lore,
+                configuration.getString("${key}.item.nbt_key"),
+                configuration.getString("${key}.item.nbt_value")
+            )
             val listener = ListenerData(
                 configuration.getBoolean("${key}.listener.any", false),
                 configuration.getStringList("${key}.listener.action")
-            )
-            val item = ItemData(
-                configuration.getStringList("${key}.item.lore"),
-                configuration.getString("${key}.item.nbt_key"),
-                configuration.getString("${key}.item.nbt_value")
             )
             val consume = ConsumeData(
                 configuration.getInt("${key}.consume.amount", 1),

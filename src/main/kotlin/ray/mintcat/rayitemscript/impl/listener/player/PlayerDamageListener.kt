@@ -11,14 +11,18 @@ import ray.mintcat.rayitemscript.impl.ScriptData
 import ray.mintcat.rayitemscript.impl.listener.ScriptListener
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.platform.util.isAir
 
 object PlayerDamageListener : ScriptListener {
 
-    @SubscribeEvent
+    @SubscribeEvent(EventPriority.HIGHEST)
     fun onPlayerItemBreakEvent(event: EntityDamageByEntityEvent) {
-        val player = event.damager as? Player ?: return
+        val player = event.damager
+        if (player !is Player) {
+            return
+        }
         val list = mutableListOf<ItemStack>()
         list.addAll(player.inventory.armorContents)
         list.add(player.inventory.itemInMainHand)
@@ -38,9 +42,11 @@ object PlayerDamageListener : ScriptListener {
     override val name: String = "player_damage"
 
     override fun check(event: Any, call: ScriptData): Boolean {
-
         if (event !is EntityDamageByEntityEvent) {
             return true
+        }
+        if (event.damager !is Player) {
+            return false
         }
         return true
     }
