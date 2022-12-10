@@ -1,0 +1,30 @@
+测试药水:
+  #全满足才可以执行
+  listener:
+    #- "click_all"
+    #- "click_left"
+    - "click_right"
+    - "action_shift"
+  item:
+    lore:
+      - "测试药水"
+    #判断 物品的 nbtKey 是否等于 value
+    nbt_key: "药水节点"
+    nbt_value: "test"
+  consume:
+    amount: 2
+    take: true
+    message: "对不起你需要拥有 2 个物品才可使用"
+  conditions:
+    probability: 20
+    permissions:
+      value: "药水.测试"
+      message: "对不起你没有这个药水的使用权限"
+    kether:
+      - "check player level < 50"
+  action:
+    - 'command papi "heal %player_name%" as server'
+  cooldown:
+    group: "药水冷却组"
+    time: 5000 #ms
+    message: "药水冷却组还在冷却中"
