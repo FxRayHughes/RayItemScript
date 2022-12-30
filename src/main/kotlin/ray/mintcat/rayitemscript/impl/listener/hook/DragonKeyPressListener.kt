@@ -1,21 +1,17 @@
-package ray.mintcat.rayitemscript.impl.listener.player
+package ray.mintcat.rayitemscript.impl.listener.hook
 
-import org.bukkit.event.player.PlayerItemBreakEvent
-import org.bukkit.event.player.PlayerPickupItemEvent
-import org.bukkit.event.player.PlayerToggleSprintEvent
-import org.bukkit.inventory.ItemStack
+import eos.moe.dragoncore.api.event.KeyPressEvent
 import ray.mintcat.rayitemscript.RayItemScript
 import ray.mintcat.rayitemscript.impl.ScriptData
 import ray.mintcat.rayitemscript.impl.listener.ScriptListener
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.platform.util.isAir
 
-object PlayerRunListener : ScriptListener {
+object DragonKeyPressListener : ScriptListener {
 
     @SubscribeEvent
-    fun onPlayerItemBreakEvent(event: PlayerToggleSprintEvent) {
+    fun onKeyPressEvent(event: KeyPressEvent) {
         RayItemScript.runAll(event.player, event, name)
     }
 
@@ -24,12 +20,17 @@ object PlayerRunListener : ScriptListener {
         register()
     }
 
-    override val name: String = "player_run"
+    override val name: String = "dragon_key_press"
 
     override fun check(event: Any, call: ScriptData): Boolean {
-
-        if (event !is PlayerToggleSprintEvent) {
+        if (event !is KeyPressEvent) {
             return true
+        }
+        val combo = call.action.firstOrNull { it.startsWith(name) }?.removePrefix("${name}->")
+        combo?.split(",")?.forEach {
+            if (!event.keys.contains(it)) {
+                return false
+            }
         }
         return true
     }

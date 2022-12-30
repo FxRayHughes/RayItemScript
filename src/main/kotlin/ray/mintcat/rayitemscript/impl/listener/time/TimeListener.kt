@@ -16,11 +16,7 @@ object TimeListener : ScriptListener {
         register()
         submit(async = true, period = 200) {
             Bukkit.getOnlinePlayers().forEach { player ->
-                player.inventory.forEach {
-                    if (it != null) {
-                        RayItemScript.run(player, Pair("TIMER", it), it, name)
-                    }
-                }
+                RayItemScript.runAll(player, Pair("TIMER", "X"), name)
             }
         }
     }

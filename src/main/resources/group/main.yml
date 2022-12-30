@@ -1,3 +1,34 @@
+测试案例:
+  #全满足才可以执行
+  listener:
+    any: false
+    action:
+      - "click_right"
+      - "action_shift"
+  item:
+    lore:
+      - "测试药水"
+    nbt_key: "测试Key"
+    nbt_value: "haha"
+  consume:
+    amount: 2
+    take: true
+    message: "对不起你需要拥有 2 个物品才可使用"
+  conditions:
+    probability:
+      value: 20
+      message: "使用失败"
+    permissions:
+      value: "药水.测试"
+      message: "对不起你没有这个药水的使用权限"
+    kether:
+      - "check player level < 50"
+  action:
+    - 'command papi "heal %player_name%" as op'
+  cooldown:
+    group: "药水冷却组"
+    time: 5000 #ms
+    message: "&e药水冷却组还在冷却中"
 测试药水:
   #全满足才可以执行
   listener:
@@ -8,6 +39,7 @@
   item:
     lore:
       - "测试药水"
+    slot: "测试"
   consume:
     amount: 2
     take: true
@@ -30,10 +62,35 @@
 测试周期:
   #全满足才可以执行
   listener:
-    - "player_swap_hand_main"
-    - "player_swap_hand"
+    - "time_always"
   item:
     lore:
       - "测试周期"
   action:
     - 'tell "RUNl!!"'
+测试龙核按键:
+  #全满足才可以执行
+  listener:
+    any: false
+    action:
+      - "dragon_key_press"
+  item:
+    lore:
+      - "测试药水"
+    #对龙核槽位的要求
+    slot: "测试"
+  action:
+    - 'command papi "heal %player_name%" as op'
+测试龙核组合按键:
+  #全满足才可以执行
+  listener:
+    any: false
+    action:
+      - "dragon_key_press->Q,W,E,MOUSE_LEFT"
+  item:
+    lore:
+      - "测试药水"
+    #对龙核槽位的要求
+    slot: "测试"
+  action:
+    - 'command papi "heal %player_name%" as op'

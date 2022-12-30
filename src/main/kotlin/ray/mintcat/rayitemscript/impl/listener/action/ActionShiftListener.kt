@@ -1,7 +1,8 @@
-package ray.mintcat.rayitemscript.impl.listener
+package ray.mintcat.rayitemscript.impl.listener.action
 
 import org.bukkit.event.player.PlayerEvent
 import ray.mintcat.rayitemscript.impl.ScriptData
+import ray.mintcat.rayitemscript.impl.listener.ScriptListener
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 

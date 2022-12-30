@@ -1,8 +1,10 @@
 package ray.mintcat.rayitemscript.impl
 
+import eos.moe.dragoncore.api.SlotAPI
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import ray.mintcat.rayitemscript.impl.actions.*
+import ray.mintcat.rayitemscript.PlayerInvUtils
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.chat.colored
 import taboolib.module.kether.KetherShell
@@ -21,6 +23,9 @@ data class ScriptData(
 
     fun run(player: Player, event: Any, itemStack: ItemStack, call: ScriptData) {
         if (!item.check(itemStack)) {
+            return
+        }
+        if (item.slot != null && PlayerInvUtils.dragonIsEnable() && !SlotAPI.getCacheSlotItem(player, item.slot).isSimilar(itemStack)) {
             return
         }
         if (!listener.eval(event, call)) {

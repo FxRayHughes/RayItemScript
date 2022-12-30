@@ -44,7 +44,8 @@ object Loader {
             val item = ItemData(
                 lore,
                 configuration.getString("${key}.item.nbt_key"),
-                configuration.getString("${key}.item.nbt_value")
+                configuration.getString("${key}.item.nbt_value"),
+                configuration.getString("${key}.item.slot"),
             )
             val listener = ListenerData(
                 configuration.getBoolean("${key}.listener.any", false),

@@ -11,11 +11,16 @@ data class ListenerData(
 
     fun eval(event: Any, call: ScriptData): Boolean {
         var over = false
-        list.forEach {
+        list.forEach { key ->
+            var it = key
+            if (key.contains("->")) {
+                it = it.split("->").getOrNull(0) ?: return@forEach
+            }
             if (it.contains("!!")) {
                 (event as? Cancellable)?.isCancelled = true
+                it = it.replace("!!", "")
             }
-            val action = RayItemScript.listeners[it.replace("!!", "")]
+            val action = RayItemScript.listeners[it]
             if (action?.check(event, call) == true) {
                 over = true
                 if (any) {

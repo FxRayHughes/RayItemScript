@@ -15,11 +15,17 @@ object RayItemScript : Plugin() {
 
     fun run(player: Player, event: Any, item: ItemStack, name: String) {
         script.forEach {
-            it.listener.list.forEach {z->
-                if (z.contains(name)){
+            it.listener.list.forEach { z ->
+                if (z.contains(name)) {
                     it.run(player, event, item, it)
                 }
             }
+        }
+    }
+
+    fun runAll(player: Player, event: Any, name: String) {
+        PlayerInvUtils.getInv(player).forEach {
+            run(player, event, it, name)
         }
     }
 

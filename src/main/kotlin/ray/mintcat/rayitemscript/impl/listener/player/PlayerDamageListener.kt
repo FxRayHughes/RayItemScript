@@ -23,15 +23,7 @@ object PlayerDamageListener : ScriptListener {
         if (player !is Player) {
             return
         }
-        val list = mutableListOf<ItemStack>()
-        list.addAll(player.inventory.armorContents)
-        list.add(player.inventory.itemInMainHand)
-        list.add(player.inventory.itemInOffHand)
-        list.forEach { item ->
-            if (!item.isAir()) {
-                RayItemScript.run(player, event, item, name)
-            }
-        }
+        RayItemScript.runAll(player, event, name)
     }
 
     @Awake(LifeCycle.ACTIVE)

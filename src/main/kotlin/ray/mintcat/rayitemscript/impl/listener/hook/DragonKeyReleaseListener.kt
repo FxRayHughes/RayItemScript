@@ -1,7 +1,6 @@
-package ray.mintcat.rayitemscript.impl.listener.player
+package ray.mintcat.rayitemscript.impl.listener.hook
 
-import org.bukkit.entity.Player
-import org.bukkit.event.entity.EntityDamageEvent
+import eos.moe.dragoncore.api.event.KeyReleaseEvent
 import ray.mintcat.rayitemscript.RayItemScript
 import ray.mintcat.rayitemscript.impl.ScriptData
 import ray.mintcat.rayitemscript.impl.listener.ScriptListener
@@ -9,12 +8,11 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.event.SubscribeEvent
 
-object PlayerInjuryListener : ScriptListener {
+object DragonKeyReleaseListener : ScriptListener {
 
     @SubscribeEvent
-    fun onPlayerItemBreakEvent(event: EntityDamageEvent) {
-        val player = event.entity as? Player ?: return
-        RayItemScript.runAll(player, event, name)
+    fun onKeyReleaseEvent(event: KeyReleaseEvent) {
+        RayItemScript.runAll(event.player, event, name)
     }
 
     @Awake(LifeCycle.ACTIVE)
@@ -22,11 +20,10 @@ object PlayerInjuryListener : ScriptListener {
         register()
     }
 
-    override val name: String = "player_injury"
+    override val name: String = "dragon_key_release"
 
     override fun check(event: Any, call: ScriptData): Boolean {
-
-        if (event !is EntityDamageEvent) {
+        if (event !is KeyReleaseEvent) {
             return true
         }
         return true
