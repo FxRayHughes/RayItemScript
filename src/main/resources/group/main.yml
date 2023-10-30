@@ -28,7 +28,8 @@
   cooldown:
     group: "药水冷却组"
     time: 5000 #ms
-    message: "&e药水冷却组还在冷却中"
+    message: "&e药水冷却组还在冷却中 {time}"
+    actionbar: true
 测试药水:
   #全满足才可以执行
   listener:

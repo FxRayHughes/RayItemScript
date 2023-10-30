@@ -13,6 +13,7 @@ import java.io.File
 object Loader {
 
     val files = ArrayList<File>()
+
     val configs = ArrayList<Configuration>()
 
     @Config("group/main.yml")
@@ -65,8 +66,9 @@ object Loader {
             )
             val cooldown = CooldownData(
                 configuration.getString("${key}.cooldown.group"),
-                configuration.getLong("${key}.cooldown.time"),
-                configuration.getString("${key}.cooldown.message")
+                configuration.getString("${key}.cooldown.time"),
+                configuration.getString("${key}.cooldown.message"),
+                configuration.getBoolean("${key}.cooldown.actionbar", false)
             )
             val action = configuration.getStringList("${key}.action")
             RayItemScript.script.add(

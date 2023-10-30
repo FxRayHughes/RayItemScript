@@ -2,12 +2,14 @@ package ray.mintcat.rayitemscript.impl.listener.time
 
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
+import ray.mintcat.rayitemscript.PlayerInvUtils
 import ray.mintcat.rayitemscript.RayItemScript
 import ray.mintcat.rayitemscript.impl.ScriptData
 import ray.mintcat.rayitemscript.impl.listener.ScriptListener
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.submit
+import taboolib.platform.util.isAir
 
 object TimeListener : ScriptListener {
 
@@ -16,7 +18,11 @@ object TimeListener : ScriptListener {
         register()
         submit(async = true, period = 200) {
             Bukkit.getOnlinePlayers().forEach { player ->
-                RayItemScript.runAll(player, Pair("TIMER", "X"), name)
+                PlayerInvUtils.getInvAll(player).forEach {
+                    if (!it.isAir) {
+                        RayItemScript.run(player, Pair("TIMER", it), it, name)
+                    }
+                }
             }
         }
     }

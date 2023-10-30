@@ -34,7 +34,10 @@ object Command {
 
     @CommandBody
     val reload = subCommand {
-        Loader.load()
+        execute<CommandSender> { sender, context, argument ->
+            Loader.load()
+            sender.sendMessage("重载完成")
+        }
     }
 
 }
